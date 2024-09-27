@@ -1,27 +1,28 @@
+"use client";
 import Header from "../components/Header";
+import { useEffect, useState } from "react";
 
 type Event = {
     id: string;
-    title: string;
+    name: string;
     description: string;
+    date: string;
+    location: string;
+    category: string;
+    image: string;
 };
 
 export default function Event() {
 
-    //define a variable int in ts
+    const [events, setEvents] = useState<Event[]>([]);
+
+    useEffect(() => {
+        fetch('/api/events')
+            .then(response => response.json())
+            .then(data => setEvents(data));
+    }, []);
     
-    const events: Event[] = [
-        {
-            id: '1',
-            title: 'Événement 1',
-            description: 'Description de l\'événement 1'
-        },
-        {
-            id: '2',
-            title: 'Événement 2',
-            description: 'Description de l\'événement 2'
-        }
-    ];
+
 
     return (
         <div>
@@ -31,7 +32,7 @@ export default function Event() {
             <ul>
                 {events.map(event => (
                     <li key={event.id}>
-                        <h2>{event.title}</h2>
+                        <h2>{event.name}</h2>
                         <p>{event.description}</p>
                     </li>
                 ))}
