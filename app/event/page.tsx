@@ -1,9 +1,10 @@
 "use client";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 type Event = {
-    id: string;
+    _id: string;
     name: string;
     description: string;
     date: string;
@@ -15,6 +16,7 @@ type Event = {
 export default function Event() {
 
     const [events, setEvents] = useState<Event[]>([]);
+    console.log(events);
 
     useEffect(() => {
         fetch('/api/events')
@@ -31,9 +33,12 @@ export default function Event() {
             <p>Voici la liste des événements</p>
             <ul>
                 {events.map(event => (
-                    <li key={event.id}>
+                    <li key={event._id}>
                         <h2>{event.name}</h2>
                         <p>{event.description}</p>
+                        <Link href={`/event/${event._id}`}>
+                            <p>Voir</p>
+                        </Link>
                     </li>
                 ))}
             </ul>
